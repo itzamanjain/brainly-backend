@@ -16,20 +16,23 @@ const express_1 = __importDefault(require("express"));
 const db_1 = require("./db");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
-app;
-app.post("/api/v1/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!req.body.userName || !req.body.password) {
-        return res.status(400).json({ message: "Username and password are required" });
+app.get('/hello', (req, res) => {
+    res.json("Hello World");
+});
+app.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("req body", req.body);
+    if (!req.body.username || !req.body.password) {
+        return res.status(400).json({ message: "username and password are required" });
     }
-    const { userName, password } = req.body;
-    const user = yield db_1.User.findOne({ userName });
+    const { username, password } = req.body;
+    const user = yield db_1.User.findOne({ username });
     if (user) {
         return res.status(400).json({ message: "User already exists" });
     }
     // const hashedPassword = await bcrypt.hash(password,10);
     const hashedPassword = password;
     try {
-        const newUser = new db_1.User({ userName, password: hashedPassword });
+        const newUser = new db_1.User({ username, password: hashedPassword });
         yield newUser.save();
         return res.status(201).json({ message: "User created successfully" });
     }
@@ -37,18 +40,18 @@ app.post("/api/v1/signup", (req, res) => __awaiter(void 0, void 0, void 0, funct
         return res.status(400).json({ message: error === null || error === void 0 ? void 0 : error.message });
     }
 }));
-app.post("/api/v1/login", (req, res) => {
-});
-app.delete("api/v1/content", (req, res) => {
-});
-app.get("api/v1/content", (req, res) => {
-});
-app.post("api/v1/content", (req, res) => {
-});
-app.post("api/v1/brain/share", (req, res) => {
-});
-app.get("api/v1/brain/:sharelink", (req, res) => {
-});
-app.listen(3000, () => {
-    console.log("Server is running on port 3000");
+// app.post("/api/v1/login",(req,res)=>{
+// })
+// app.delete("api/v1/content",(req,res)=>{
+// })
+// app.get("api/v1/content",(req,res)=>{
+// })
+// app.post("api/v1/content",(req,res)=>{
+// })
+// app.post("api/v1/brain/share",(req,res)=>{
+// })
+// app.get("api/v1/brain/:sharelink",(req,res)=>{
+// })
+app.listen(8000, () => {
+    console.log("Server is running on port 8000");
 });

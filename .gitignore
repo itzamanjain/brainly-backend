@@ -1,4 +1,6 @@
 // write gitignore
 
-/node_modules
+node_modules
 .env
+dist
+dist/*
